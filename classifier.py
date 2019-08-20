@@ -20,7 +20,7 @@ saver = tf.compat.v1.train.import_meta_graph(graph_path)
 saver.restore(session, tf.train.latest_checkpoint('./ckpts/'))
 # saver.restore(session, checkpoint_path)
 
-def classify(file_path='./datasets/test/0a02f9b47e8082558fa257092f0cedee.jpg'):
+def classify(file_path='./test_image/2.jpg'):
     print(file_path)
     images = []
     image = cv2.imread(file_path)
@@ -33,7 +33,7 @@ def classify(file_path='./datasets/test/0a02f9b47e8082558fa257092f0cedee.jpg'):
     images = np.multiply(images, 1.0 / 255.0)
     # The input to the network is of shape [None image_size image_size num_channels]. Hence we reshape.
     x_batch = images.reshape(1, image_size, image_size, num_channels)
-    graph = tf.get_default_graph()
+    graph = tf.compat.v1.get_default_graph()
     y_pred = graph.get_tensor_by_name("y_pred:0")
     # Let's feed the images to the input placeholders
     x= graph.get_tensor_by_name("x:0")
@@ -42,3 +42,5 @@ def classify(file_path='./datasets/test/0a02f9b47e8082558fa257092f0cedee.jpg'):
     feed_dict_testing = {x: x_batch, y_true: y_test_images}
     result = session.run(y_pred, feed_dict=feed_dict_testing)
     print(result)
+
+classify()
