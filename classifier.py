@@ -12,15 +12,15 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 image_size = 128
 num_channels = 3
 
-graph_path = os.path.join('plant_disease_classification/ckpts/', 'plants-disease-model.meta')
-checkpoint_path = os.path.join('plant_disease_classification/ckpts/', 'plants-disease-model')
+graph_path = os.path.join('./ckpts/', 'plants-disease-model.meta')
+checkpoint_path = os.path.join('./ckpts/', 'plants-disease-model')
 
 session = tf.compat.v1.Session()
 saver = tf.compat.v1.train.import_meta_graph(graph_path)
-saver.restore(session, tf.train.latest_checkpoint('plant_disease_classification/ckpts/'))
+saver.restore(session, tf.train.latest_checkpoint('./ckpts/'))
 # saver.restore(session, checkpoint_path)
 
-def classify(file_path='plant_disease_classification/datasets/test/0a02f9b47e8082558fa257092f0cedee.jpg'):
+def classify(file_path='./datasets/test/0a02f9b47e8082558fa257092f0cedee.jpg'):
     print(file_path)
     images = []
     image = cv2.imread(file_path)

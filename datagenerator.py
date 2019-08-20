@@ -22,7 +22,7 @@ def find_images(path):
       image_paths (array).
     """
 
-    directory = os.path.join('plant_disease_classification', path)
+    directory = os.path.join('./', path)
     # Options for the GNU and BSD find command
     extension_list = ['jpg', 'png', 'JPG', 'PNG', 'JPEG', 'ppm', 'PPM', 'bmp', 'BMP']
     find_options = str.format('-iname "*.{0}"', extension_list[0])
@@ -52,7 +52,7 @@ def load_train_data(train_path, image_size, classes):
     extension_list = ('*.jpg', '*.JPG')
 
     print('Going to read training images')
-    for fields in classes:   
+    for fields in classes:
         index = classes.index(fields)
         print('Now going to read {} files (Index: {})'.format(fields, index))
         for extension in extension_list:
@@ -80,7 +80,7 @@ def read_train_sets(train_path, image_size, classes, validation_size):
     data_set = DataSet()
 
     images, labels, img_names, class_array = load_train_data(train_path, image_size, classes)
-    images, labels, img_names, class_array = shuffle(images, labels, img_names, class_array)  
+    images, labels, img_names, class_array = shuffle(images, labels, img_names, class_array)
 
     if isinstance(validation_size, float):
         validation_size = int(validation_size * images.shape[0])
