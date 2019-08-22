@@ -8,7 +8,7 @@ import datagenerator
 # Just disables the warning, doesn't enable AVX/FMA
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-train_path ='datasets/train'
+train_path ='data_dir/train'
 classes = os.listdir(train_path)
 num_classes = len(classes)
 
@@ -191,4 +191,4 @@ def train(num_iteration):
             saver.save(session, os.path.join(save_path, 'plants-disease-model'))
     total_iterations += num_iteration
 
-train(num_iteration=3000)
+train(num_iteration=4000)

@@ -5,6 +5,7 @@ import os
 import cv2
 import numpy as np
 import tensorflow as tf
+import json
 
 # Just disables the warning, doesn't enable AVX/FMA
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -20,12 +21,16 @@ saver = tf.compat.v1.train.import_meta_graph(graph_path)
 saver.restore(session, tf.train.latest_checkpoint('./ckpts/'))
 # saver.restore(session, checkpoint_path)
 
-def classify(file_path='./test_image/2.jpg'):
+def get_best_match_class(A):
+   maxposition = A.index(max(A))
+   return maxposition
+
+def classify(file_path):
+    with open('categories.json', 'r', encoding='utf-8') as cat_file:
+        categories = json.load(cat_file)
     print(file_path)
     images = []
     image = cv2.imread(file_path)
-    # Resizing the image to our desired size and
-    # preprocessing will be done exactly as done during training
     image = cv2.resize(image, (image_size, image_size), cv2.INTER_LINEAR)
     images.append(image)
     images = np.array(images, dtype=np.uint8)
@@ -38,9 +43,17 @@ def classify(file_path='./test_image/2.jpg'):
     # Let's feed the images to the input placeholders
     x= graph.get_tensor_by_name("x:0")
     y_true = graph.get_tensor_by_name("y_true:0")
-    y_test_images = np.zeros((1, 38))
+    y_test_images = np.zeros((1, len(categories)))
     feed_dict_testing = {x: x_batch, y_true: y_test_images}
     result = session.run(y_pred, feed_dict=feed_dict_testing)
-    print(result)
+    # print(result)
+    pred_class_index = get_best_match_class(result[0].tolist())
+    score = max(result[0].tolist())
 
-classify()
+    print("Detected Class : {}\nConfidence Score: {}".format(str(categories[pred_class_index]).split('___')[1], score))
+
+
+
+classify('./test_image/1.jpg')
+classify('./test_image/2.jpg')
+classify('./test_image/3.jpg')

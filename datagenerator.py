@@ -7,6 +7,7 @@ import subprocess
 import cv2
 import numpy as np
 import glob
+import json
 
 from sklearn.utils import shuffle
 from dataset import DataSet
@@ -52,6 +53,12 @@ def load_train_data(train_path, image_size, classes):
     extension_list = ('*.jpg', '*.JPG')
 
     print('Going to read training images')
+
+    class_labels = json.dumps(classes)
+
+    with open('categories.json', 'w', encoding = 'utf-8') as cat_file:
+        cat_file.write(class_labels)
+
     for fields in classes:
         index = classes.index(fields)
         print('Now going to read {} files (Index: {})'.format(fields, index))
