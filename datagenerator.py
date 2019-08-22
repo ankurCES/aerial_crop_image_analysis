@@ -11,6 +11,7 @@ import json
 
 from sklearn.utils import shuffle
 from dataset import DataSet
+from tqdm import tqdm
 
 def find_images(path):
     """
@@ -52,16 +53,17 @@ def load_train_data(train_path, image_size, classes):
     class_array = []
     extension_list = ('*.jpg', '*.JPG')
 
-    print('Going to read training images')
+    print('Reading training images...')
 
     class_labels = json.dumps(classes)
 
     with open('categories.json', 'w', encoding = 'utf-8') as cat_file:
         cat_file.write(class_labels)
 
-    for fields in classes:
+    pbar = tqdm(classes)
+    for fields in pbar:
         index = classes.index(fields)
-        print('Now going to read {} files (Index: {})'.format(fields, index))
+        pbar.set_description('Reading {} files (Index: {})'.format(fields, index))
         for extension in extension_list:
             path = os.path.join(train_path, fields, extension)
             files = glob.glob(path)

@@ -50,10 +50,13 @@ def classify(file_path):
     pred_class_index = get_best_match_class(result[0].tolist())
     score = max(result[0].tolist())
 
-    print("Detected Class : {}\nConfidence Score: {}".format(str(categories[pred_class_index]).split('___')[1], score))
+    print("Detected Class : {}\nConfidence Score: {}\n#############################".format(str(categories[pred_class_index]).split('___')[1], score))
 
 
 
 classify('./test_image/1.jpg')
 classify('./test_image/2.jpg')
 classify('./test_image/3.jpg')
+classify('./test_image/4.jpg')
+classify('./test_image/5.jpg')
+classify('./test_image/6.jpg')

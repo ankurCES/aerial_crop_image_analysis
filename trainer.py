@@ -4,9 +4,18 @@
 import os
 import tensorflow as tf
 import datagenerator
+import numpy as np
 
 # Just disables the warning, doesn't enable AVX/FMA
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+# Load AlexNet Pretrained weights
+# Trick to avoid ValueError
+# np_load_old = np.load
+# np.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
+# weights_dict = np.load("bvlc_alexnet.npy", encoding='bytes').item()
+#
+# np.load = np_load_old
 
 train_path ='data_dir/train'
 classes = os.listdir(train_path)
@@ -14,7 +23,7 @@ num_classes = len(classes)
 
 # 20% of the data will automatically be used for validation
 validation_size = 0.2
-img_size = 128
+img_size = 32
 num_channels = 3
 
 batch_size = 32
@@ -191,4 +200,4 @@ def train(num_iteration):
             saver.save(session, os.path.join(save_path, 'plants-disease-model'))
     total_iterations += num_iteration
 
-train(num_iteration=4000)
+train(num_iteration=20000)
