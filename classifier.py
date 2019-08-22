@@ -10,7 +10,7 @@ import json
 # Just disables the warning, doesn't enable AVX/FMA
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-image_size = 128
+image_size = 32
 num_channels = 3
 
 graph_path = os.path.join('./ckpts/', 'plants-disease-model.meta')

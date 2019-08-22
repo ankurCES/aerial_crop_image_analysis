@@ -63,7 +63,7 @@ def load_train_data(train_path, image_size, classes):
     pbar = tqdm(classes)
     for fields in pbar:
         index = classes.index(fields)
-        pbar.set_description('Reading {} files (Index: {})'.format(fields, index))
+        pbar.set_description('{} {} '.format(index, fields))
         for extension in extension_list:
             path = os.path.join(train_path, fields, extension)
             files = glob.glob(path)
